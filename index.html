@@ -495,11 +495,14 @@ function handlePhotos(e) {
   if (state.draft.photos.length >= 10) return alert('Maximum 10 photos per post');
   files.forEach(file => {
     let r = new FileReader();
-    r.onload = e => {
-      state.draft.photos.push(e.target.result);
-      render();
-    };
-    r.readAsDataURL(file);
+    // New: Upload to Supabase
+const { data, error } = await supabase.storage
+  .from('your-bucket-name')
+  .upload(`path/to/image.jpg`, fileObject)
+
+// Then save the public URL to your state
+const publicUrl = supabase.storage.from('bucket').getPublicUrl('path/to/image.jpg');
+state.draft.photos.push(publicUrl);
   });
 }
 
