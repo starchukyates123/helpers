@@ -1,678 +1,557 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Support Our Grow</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;min-height:100vh;line-height:1.6}
-.container{max-width:1200px;margin:0 auto;padding:1rem}
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;background:radial-gradient(circle at 20% 20%,#1e1b4b 0%,#0f172a 50%,#020617 100%);position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1));pointer-events:none}
-.hero-content{position:relative;z-index:1;animation:fadeIn 0.8s ease-out}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.hero h1{font-size:2.5rem;margin-bottom:1rem;background:linear-gradient(90deg,#60a5fa,#a78bfa,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;letter-spacing:-0.02em}
-.hero p{font-size:1.25rem;color:#94a3b8;margin-bottom:2rem;max-width:600px}
-.card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:2rem;margin:1rem 0;backdrop-filter:blur(12px);box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);transition:all 0.3s}
-.card:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
-.btn{padding:0.875rem 1.75rem;border:none;border-radius:0.75rem;font-weight:600;cursor:pointer;font-size:1rem;transition:all 0.3s;display:inline-block;text-decoration:none;text-align:center}
-.btn-primary{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;box-shadow:0 4px 16px rgba(59,130,246,0.4)}
-.btn-primary:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 12px 32px rgba(139,92,246,0.5)}
-.btn-primary:active{transform:scale(0.98)}
-.btn-danger{background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
-.btn-danger:hover{background:rgba(239,68,68,0.3)}
-.btn-secondary{background:rgba(100,116,139,0.3);color:#cbd5e1;border:1px solid rgba(100,116,139,0.4)}
-.btn-secondary:hover{background:rgba(100,116,139,0.4)}
-input,textarea,select{width:100%;padding:0.875rem;border-radius:0.625rem;background:#1e293b;border:1px solid #334155;color:#fff;margin:0.5rem 0;font-family:inherit;font-size:1rem;transition:all 0.2s}
-input:focus,textarea:focus,select:focus{outline:none;border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,0.1)}
-label{display:block;margin-top:1rem;color:#94a3b8;font-size:0.875rem;font-weight:500}
-.header{position:fixed;top:0;right:0;padding:1rem;z-index:100;display:flex;gap:0.5rem;flex-wrap:wrap}
-.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin:1rem 0}
-.grid-3 img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:0.625rem;cursor:pointer;transition:all 0.3s}
-.grid-3 img:hover{transform:scale(1.05);box-shadow:0 8px 16px rgba(0,0,0,0.4)}
-.post{margin:2rem 0;padding:1.75rem;border-radius:1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);animation:slideUp 0.4s ease-out}
-@keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.locked{text-align:center;padding:3rem 1rem;background:linear-gradient(135deg,rgba(251,191,36,0.05),rgba(245,158,11,0.05));border:1px solid rgba(251,191,36,0.2)}
-.hidden{display:none!important}
-.admin-section{margin:2rem 0}
-.checkbox{display:flex;align-items:center;gap:0.75rem;margin:1rem 0;padding:0.75rem;background:rgba(251,191,36,0.1);border-radius:0.5rem;border:1px solid rgba(251,191,36,0.2)}
-.checkbox input{width:auto;margin:0}
-.badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.75rem;font-weight:600;margin-left:0.5rem}
-.badge-locked{background:rgba(251,191,36,0.2);color:#fcd34d;border:1px solid rgba(251,191,36,0.3)}
-.badge-public{background:rgba(34,197,94,0.2);color:#86efac;border:1px solid rgba(34,197,94,0.3)}
-.success-banner{background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(16,185,129,0.15));border:1px solid rgba(34,197,94,0.3);padding:1.5rem;border-radius:0.75rem;margin-bottom:2rem}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:1rem 0}
-.stat-card{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:1.25rem;border-radius:0.75rem;text-align:center}
-.stat-value{font-size:2rem;font-weight:700;color:#60a5fa}
-.stat-label{font-size:0.875rem;color:#94a3b8;margin-top:0.25rem}
-.login-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:900px;width:100%;margin-top:2rem}
-.preview-toggle{position:fixed;bottom:1.5rem;right:1.5rem;z-index:99}
-.tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.1);flex-wrap:wrap}
-.tab{padding:0.875rem 1.5rem;background:transparent;border:none;color:#94a3b8;cursor:pointer;font-weight:600;border-bottom:2px solid transparent;transition:all 0.2s;border-radius:0.5rem 0.5rem 0 0}
-.tab:hover{background:rgba(255,255,255,0.05)}
-.tab.active{color:#60a5fa;border-bottom-color:#60a5fa;background:rgba(59,130,246,0.1)}
-.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin:1rem 0}
-.gallery-item{position:relative;aspect-ratio:1;border-radius:0.75rem;overflow:hidden;background:#1e293b;transition:all 0.3s}
-.gallery-item:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
-.gallery-item img{width:100%;height:100%;object-fit:cover;cursor:pointer}
-.gallery-item .overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);padding:0.5rem;font-size:0.75rem;color:#fff;opacity:0;transition:opacity 0.2s}
-.gallery-item:hover .overlay{opacity:1}
-.gallery-controls{position:absolute;top:0.5rem;right:0.5rem;display:flex;gap:0.25rem;opacity:0;transition:opacity 0.2s}
-.gallery-item:hover .gallery-controls{opacity:1}
-.btn-icon{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:0.375rem;font-size:0.875rem}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;animation:fadeIn 0.2s}
-.modal img{max-width:90%;max-height:90vh;border-radius:0.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
-.modal-close{position:absolute;top:1rem;right:1rem;font-size:2rem;color:#fff;background:rgba(0,0,0,0.5);border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;transition:all 0.2s}
-.modal-close:hover{background:rgba(239,68,68,0.8);transform:scale(1.1)}
-.drag-handle{cursor:move;opacity:0.6}
-.dragging{opacity:0.5;transform:scale(0.95)}
-@media(max-width:640px){
-.hero h1{font-size:1.75rem}
-.hero p{font-size:1rem}
-.grid-3{grid-template-columns:repeat(2,1fr)}
-.gallery-grid{grid-template-columns:repeat(2,1fr)}
-.card{padding:1.25rem}
-.btn{padding:0.75rem 1.25rem;font-size:0.9375rem}
-.header{padding:0.75rem}
-.login-grid{grid-template-columns:1fr}
-.stats-grid{grid-template-columns:repeat(2,1fr)}
-.stat-value{font-size:1.5rem}
-.preview-toggle{bottom:1rem;right:1rem}
-.tab{padding:0.75rem 1rem;font-size:0.875rem}
-}
-@media(max-width:390px){
-.container{padding:0.75rem}
-.post{padding:1.25rem}
-.hero h1{font-size:1.5rem}
-.gallery-grid{grid-template-columns:repeat(2,1fr);gap:0.5rem}
-}
-</style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ⚠️ ONLY USE THE 'ANON' PUBLIC KEY HERE. NEVER THE SECRET KEY.
+    const supabase = supabase.createClient(
+      'https://rshsosjeykkgahvwrwqe.supabase.co', 
+      'YOUR_ANON_PUBLIC_KEY_HERE' 
+    );
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Our Grow</title>
+  <style>
+    /* YOUR EXACT CSS REMAINS HERE */
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;min-height:100vh;line-height:1.6}
+    .container{max-width:1200px;margin:0 auto;padding:1rem}
+    .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;background:radial-gradient(circle at 20% 20%,#1e1b4b 0%,#0f172a 50%,#020617 100%);position:relative;overflow:hidden}
+    .hero::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(139,92,246,0.1));pointer-events:none}
+    .hero-content{position:relative;z-index:1;animation:fadeIn 0.8s ease-out}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .hero h1{font-size:2.5rem;margin-bottom:1rem;background:linear-gradient(90deg,#60a5fa,#a78bfa,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:800;letter-spacing:-0.02em}
+    .hero p{font-size:1.25rem;color:#94a3b8;margin-bottom:2rem;max-width:600px}
+    .card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:1rem;padding:2rem;margin:1rem 0;backdrop-filter:blur(12px);box-shadow:0 20px 25px -5px rgba(0,0,0,0.3);transition:all 0.3s}
+    .card:hover{border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
+    .btn{padding:0.875rem 1.75rem;border:none;border-radius:0.75rem;font-weight:600;cursor:pointer;font-size:1rem;transition:all 0.3s;display:inline-block;text-decoration:none;text-align:center}
+    .btn-primary{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;box-shadow:0 4px 16px rgba(59,130,246,0.4)}
+    .btn-primary:hover{transform:scale(1.05) translateY(-2px);box-shadow:0 12px 32px rgba(139,92,246,0.5)}
+    .btn-primary:active{transform:scale(0.98)}
+    .btn-danger{background:rgba(239,68,68,0.2);color:#fca5a5;border:1px solid rgba(239,68,68,0.3)}
+    .btn-danger:hover{background:rgba(239,68,68,0.3)}
+    .btn-secondary{background:rgba(100,116,139,0.3);color:#cbd5e1;border:1px solid rgba(100,116,139,0.4)}
+    .btn-secondary:hover{background:rgba(100,116,139,0.4)}
+    input,textarea,select{width:100%;padding:0.875rem;border-radius:0.625rem;background:#1e293b;border:1px solid #334155;color:#fff;margin:0.5rem 0;font-family:inherit;font-size:1rem;transition:all 0.2s}
+    input:focus,textarea:focus,select:focus{outline:none;border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,0.1)}
+    label{display:block;margin-top:1rem;color:#94a3b8;font-size:0.875rem;font-weight:500}
+    .header{position:fixed;top:0;right:0;padding:1rem;z-index:100;display:flex;gap:0.5rem;flex-wrap:wrap}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;margin:1rem 0}
+    .grid-3 img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:0.625rem;cursor:pointer;transition:all 0.3s}
+    .grid-3 img:hover{transform:scale(1.05);box-shadow:0 8px 16px rgba(0,0,0,0.4)}
+    .post{margin:2rem 0;padding:1.75rem;border-radius:1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);animation:slideUp 0.4s ease-out}
+    @keyframes slideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .locked{text-align:center;padding:3rem 1rem;background:linear-gradient(135deg,rgba(251,191,36,0.05),rgba(245,158,11,0.05));border:1px solid rgba(251,191,36,0.2)}
+    .hidden{display:none!important}
+    .admin-section{margin:2rem 0}
+    .checkbox{display:flex;align-items:center;gap:0.75rem;margin:1rem 0;padding:0.75rem;background:rgba(251,191,36,0.1);border-radius:0.5rem;border:1px solid rgba(251,191,36,0.2)}
+    .checkbox input{width:auto;margin:0}
+    .badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:1rem;font-size:0.75rem;font-weight:600;margin-left:0.5rem}
+    .badge-locked{background:rgba(251,191,36,0.2);color:#fcd34d;border:1px solid rgba(251,191,36,0.3)}
+    .badge-public{background:rgba(34,197,94,0.2);color:#86efac;border:1px solid rgba(34,197,94,0.3)}
+    .success-banner{background:linear-gradient(135deg,rgba(34,197,94,0.15),rgba(16,185,129,0.15));border:1px solid rgba(34,197,94,0.3);padding:1.5rem;border-radius:0.75rem;margin-bottom:2rem}
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin:1rem 0}
+    .stat-card{background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);padding:1.25rem;border-radius:0.75rem;text-align:center}
+    .stat-value{font-size:2rem;font-weight:700;color:#60a5fa}
+    .stat-label{font-size:0.875rem;color:#94a3b8;margin-top:0.25rem}
+    .login-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;max-width:900px;width:100%;margin-top:2rem}
+    .preview-toggle{position:fixed;bottom:1.5rem;right:1.5rem;z-index:99}
+    .tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;border-bottom:1px solid rgba(255,255,255,0.1);flex-wrap:wrap}
+    .tab{padding:0.875rem 1.5rem;background:transparent;border:none;color:#94a3b8;cursor:pointer;font-weight:600;border-bottom:2px solid transparent;transition:all 0.2s;border-radius:0.5rem 0.5rem 0 0}
+    .tab:hover{background:rgba(255,255,255,0.05)}
+    .tab.active{color:#60a5fa;border-bottom-color:#60a5fa;background:rgba(59,130,246,0.1)}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1rem;margin:1rem 0}
+    .gallery-item{position:relative;aspect-ratio:1;border-radius:0.75rem;overflow:hidden;background:#1e293b;transition:all 0.3s}
+    .gallery-item:hover{transform:scale(1.05);box-shadow:0 8px 24px rgba(0,0,0,0.5)}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;cursor:pointer}
+    .gallery-item .overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgba(0,0,0,0.9),transparent);padding:0.5rem;font-size:0.75rem;color:#fff;opacity:0;transition:opacity 0.2s}
+    .gallery-item:hover .overlay{opacity:1}
+    .gallery-controls{position:absolute;top:0.5rem;right:0.5rem;display:flex;gap:0.25rem;opacity:0;transition:opacity 0.2s}
+    .gallery-item:hover .gallery-controls{opacity:1}
+    .btn-icon{width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:0.375rem;font-size:0.875rem}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;animation:fadeIn 0.2s}
+    .modal img{max-width:90%;max-height:90vh;border-radius:0.5rem;box-shadow:0 20px 60px rgba(0,0,0,0.8)}
+    .modal-close{position:absolute;top:1rem;right:1rem;font-size:2rem;color:#fff;background:rgba(0,0,0,0.5);border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;transition:all 0.2s}
+    .modal-close:hover{background:rgba(239,68,68,0.8);transform:scale(1.1)}
+    .drag-handle{cursor:move;opacity:0.6}
+    .dragging{opacity:0.5;transform:scale(0.95)}
+    @media(max-width:640px){
+    .hero h1{font-size:1.75rem}
+    .hero p{font-size:1rem}
+    .grid-3{grid-template-columns:repeat(2,1fr)}
+    .gallery-grid{grid-template-columns:repeat(2,1fr)}
+    .card{padding:1.25rem}
+    .btn{padding:0.75rem 1.25rem;font-size:0.9375rem}
+    .header{padding:0.75rem}
+    .login-grid{grid-template-columns:1fr}
+    .stats-grid{grid-template-columns:repeat(2,1fr)}
+    .stat-value{font-size:1.5rem}
+    .preview-toggle{bottom:1rem;right:1rem}
+    .tab{padding:0.75rem 1rem;font-size:0.875rem}
+    }
+    @media(max-width:390px){
+    .container{padding:0.75rem}
+    .post{padding:1.25rem}
+    .hero h1{font-size:1.5rem}
+    .gallery-grid{grid-template-columns:repeat(2,1fr);gap:0.5rem}
+    }
+  </style>
 </head>
 <body>
 <div id="app"></div>
+
 <script>
-const STRIPE_URL = 'https://buy.stripe.com/9B66oH1up0T31FMeA8bwk00';
-let state = {
-  isAdmin: false,
-  isSupporter: false,
-  pass: '',
-  supporterCode: '',
-  settings: {
-    title: 'Support Our Grow',
-    subtitle: 'Join Ariana\'s AI Helper Evolution',
-    price: '$4.99/mo',
-    about: 'Follow our journey as we learn and grow together. Exclusive content for supporters!'
-  },
-  posts: [],
-  gallery: [],
-  editing: null,
-  draft: {photos: [], video: null},
-  adminTab: 'settings'
-};
+  const STRIPE_URL = 'https://buy.stripe.com/9B66oH1up0T31FMeA8bwk00';
+  const $ = s => document.querySelector(s);
+  const hash = p => btoa(p).slice(0,16);
 
-const $ = s => document.querySelector(s);
-const hash = p => btoa(p).slice(0,16);
+  // App State
+  let state = {
+    isAdmin: false,
+    isSupporter: false,
+    pass: localStorage.getItem('admin_pass') || '', // Keeping local pass just for UI unlock for now
+    supporterCode: '',
+    settings: {
+      title: 'Support Our Grow',
+      subtitle: 'Join Ariana\'s AI Helper Evolution',
+      price: '$4.99/mo',
+      about: 'Follow our journey as we learn and grow together. Exclusive content for supporters!'
+    },
+    posts: [],
+    gallery: [],
+    editing: null,
+    draft: { photos: [], video: null },
+    adminTab: 'settings'
+  };
 
-function save() {
-  localStorage.setItem('sog_data', JSON.stringify({
-    pass: state.pass,
-    supporterCode: state.supporterCode,
-    settings: state.settings,
-    posts: state.posts,
-    gallery: state.gallery
-  }));
-}
+  // 1. Initializer: Fetches data from Supabase
+  async function init() {
+    // Check local session
+    state.isAdmin = sessionStorage.getItem('admin') === '1';
+    state.isSupporter = sessionStorage.getItem('supporter') === '1';
 
-function load() {
-  let d = localStorage.getItem('sog_data');
-  if (d) {
-    let p = JSON.parse(d);
-    state.pass = p.pass || '';
-    state.supporterCode = p.supporterCode || '';
-    state.settings = {...state.settings, ...p.settings};
-    state.posts = p.posts || [];
-    state.gallery = p.gallery || [];
+    // Fetch Settings
+    const { data: settingsData } = await supabase.from('settings').select('*').single();
+    if (settingsData) {
+      state.settings = { ...state.settings, ...settingsData };
+      state.supporterCode = settingsData.supporterCode || state.supporterCode;
+    }
+
+    // Fetch Posts
+    const { data: postsData } = await supabase.from('posts').select('*').order('id', { ascending: false });
+    if (postsData) {
+      state.posts = postsData;
+    }
+
+    // Check Stripe Success
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true' && state.supporterCode) {
+      showStripeSuccess();
+      return;
+    }
+    
+    render();
   }
-  state.isAdmin = sessionStorage.getItem('admin') === '1';
-  state.isSupporter = sessionStorage.getItem('supporter') === '1';
-  
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('success') === 'true' && state.supporterCode) {
-    showStripeSuccess();
-    return;
+
+  // 2. Database Save Functions
+  async function saveSettings() {
+    state.settings.title = $('#title').value;
+    state.settings.subtitle = $('#subtitle').value;
+    state.settings.about = $('#about').value;
+    state.settings.price = $('#price').value;
+    state.supporterCode = $('#supporterCode').value.trim();
+
+    const { error } = await supabase
+      .from('settings')
+      .upsert({ id: 1, ...state.settings, supporterCode: state.supporterCode });
+
+    if (error) {
+      console.error("Settings Error:", error);
+      alert('Error saving settings to Supabase.');
+    } else {
+      alert('✓ Settings saved successfully to the cloud!');
+      render();
+    }
   }
-  render();
-}
 
-function showStripeSuccess() {
-  $('#app').innerHTML = `
-    <div class="hero">
-      <div class="card success-banner" style="max-width:600px">
-        <h1 style="font-size:2rem;margin-bottom:1rem">🎉 Thank You!</h1>
-        <p style="color:#86efac;margin-bottom:1.5rem">Your subscription is active!</p>
-        <div style="background:rgba(0,0,0,0.3);padding:1.5rem;border-radius:0.5rem;margin:1.5rem 0">
-          <p style="color:#94a3b8;font-size:0.875rem;margin-bottom:0.5rem">Your access code:</p>
-          <p style="font-size:1.75rem;font-weight:700;color:#fcd34d;letter-spacing:0.05em">${state.supporterCode}</p>
-        </div>
-        <p style="color:#cbd5e1;font-size:0.9375rem;margin-bottom:1.5rem">Enter this code in 'Supporter Login' to unlock all exclusive content.</p>
-        <button class="btn btn-primary" style="width:100%" onclick="window.location.href=window.location.pathname">Go to Site</button>
-      </div>
-    </div>`;
-}
+  async function publishPost() {
+    let c = $('#content').value.trim();
+    if (!c) return alert('Please write some content for your post');
+    
+    let newPost = {
+      content: c,
+      photos: [...state.draft.photos],
+      video: state.draft.video,
+      locked: $('#locked').checked,
+      date: new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})
+    };
+    
+    // Save to Supabase instead of local array
+    const { error } = await supabase.from('posts').insert([newPost]);
+    
+    if (error) {
+      console.error("Post Error:", error);
+      alert('Failed to save post to database.');
+    } else {
+      state.draft = {photos: [], video: null};
+      init(); // Re-fetch all posts from DB
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+  }
 
-function render() {
-  let app = $('#app');
-  
-  if (!state.pass) {
-    app.innerHTML = `
+  // 3. File Upload Functions (Fixed async logic)
+  async function handlePhotos(e) {
+    const files = Array.from(e.target.files).slice(0, 10 - state.draft.photos.length);
+    if (state.draft.photos.length >= 10) return alert('Maximum 10 photos per post');
+    
+    for (const file of files) {
+      const fileName = `${Date.now()}_${file.name}`;
+      
+      // Upload to Supabase Storage Bucket (Make sure you create a bucket named 'photos')
+      const { data, error } = await supabase.storage
+        .from('photos') 
+        .upload(fileName, file);
+
+      if (error) {
+        console.error("Upload Error:", error);
+        alert('Image upload failed.');
+        continue;
+      }
+
+      // Get Public URL
+      const { data: urlData } = supabase.storage.from('photos').getPublicUrl(fileName);
+      state.draft.photos.push(urlData.publicUrl);
+    }
+    
+    render();
+  }
+
+  function removePhoto(i) {
+    state.draft.photos.splice(i, 1);
+    render();
+  }
+
+  // 4. UI Rendering Functions
+  function showStripeSuccess() {
+    $('#app').innerHTML = `
       <div class="hero">
-        <div class="card" style="max-width:500px">
-          <h1>🔐 Set Admin Password</h1>
-          <p style="color:#94a3b8;margin:1rem 0">Create password to manage your site. You'll set the supporter code later.</p>
-          <input type="password" id="newpass" placeholder="Enter admin password (min 4 chars)" onkeypress="if(event.key==='Enter')setPass()">
-          <button class="btn btn-primary" style="width:100%;margin-top:1rem" onclick="setPass()">Set Password & Launch</button>
+        <div class="card success-banner" style="max-width:600px">
+          <h1 style="font-size:2rem;margin-bottom:1rem">🎉 Thank You!</h1>
+          <p style="color:#86efac;margin-bottom:1.5rem">Your subscription is active!</p>
+          <div style="background:rgba(0,0,0,0.3);padding:1.5rem;border-radius:0.5rem;margin:1.5rem 0">
+            <p style="color:#94a3b8;font-size:0.875rem;margin-bottom:0.5rem">Your access code:</p>
+            <p style="font-size:1.75rem;font-weight:700;color:#fcd34d;letter-spacing:0.05em">${state.supporterCode}</p>
+          </div>
+          <p style="color:#cbd5e1;font-size:0.9375rem;margin-bottom:1.5rem">Enter this code in 'Supporter Login' to unlock all exclusive content.</p>
+          <button class="btn btn-primary" style="width:100%" onclick="window.location.href=window.location.pathname">Go to Site</button>
         </div>
       </div>`;
-    return;
   }
 
-  if (state.isAdmin) {
-    renderAdmin();
-    return;
+  function render() {
+    let app = $('#app');
+    
+    if (!state.pass) {
+      app.innerHTML = `
+        <div class="hero">
+          <div class="card" style="max-width:500px">
+            <h1>🔐 Set Admin Password</h1>
+            <p style="color:#94a3b8;margin:1rem 0">Create password to manage your site. You'll set the supporter code later.</p>
+            <input type="password" id="newpass" placeholder="Enter admin password (min 4 chars)" onkeypress="if(event.key==='Enter')setPass()">
+            <button class="btn btn-primary" style="width:100%;margin-top:1rem" onclick="setPass()">Set Password & Launch</button>
+          </div>
+        </div>`;
+      return;
+    }
+
+    if (state.isAdmin) {
+      renderAdmin();
+      return;
+    }
+
+    renderPublic();
   }
 
-  renderPublic();
-}
+  function renderAdmin() {
+    let totalPosts = state.posts.length;
+    let lockedPosts = state.posts.filter(p => p.locked).length;
+    let publicPosts = totalPosts - lockedPosts;
+    
+    $('#app').innerHTML = `
+      <div class="header">
+        <button class="btn btn-secondary" onclick="togglePreview()">👁️ Preview Site</button>
+        <button class="btn btn-danger" onclick="logoutAdmin()">Logout Admin</button>
+      </div>
+      <div class="container" style="padding-top:5rem">
+        <div class="card">
+          <h2>📊 Dashboard</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-value">${totalPosts}</div>
+              <div class="stat-label">Total Posts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">${publicPosts}</div>
+              <div class="stat-label">Public Posts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">${lockedPosts}</div>
+              <div class="stat-label">🔒 Locked Posts</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">${state.gallery.length}</div>
+              <div class="stat-label">Gallery Photos</div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card admin-section">
+          <div class="tabs">
+            <button class="tab ${state.adminTab === 'settings' ? 'active' : ''}" onclick="switchTab('settings')">⚙️ Site Settings</button>
+            <button class="tab ${state.adminTab === 'posts' ? 'active' : ''}" onclick="switchTab('posts')">✍️ Posts</button>
+            <button class="tab ${state.adminTab === 'gallery' ? 'active' : ''}" onclick="switchTab('gallery')">🖼️ Edit Gallery</button>
+          </div>
+          
+          ${state.adminTab === 'settings' ? renderSettingsTab() : ''}
+          ${state.adminTab === 'posts' ? renderPostsTab() : ''}
+          ${state.adminTab === 'gallery' ? renderGalleryTab() : ''}
+        </div>
+      </div>`;
+  }
 
-function renderAdmin() {
-  let totalPosts = state.posts.length;
-  let lockedPosts = state.posts.filter(p => p.locked).length;
-  let publicPosts = totalPosts - lockedPosts;
-  
-  $('#app').innerHTML = `
-    <div class="header">
-      <button class="btn btn-secondary" onclick="togglePreview()">👁️ Preview Site</button>
-      <button class="btn btn-danger" onclick="logoutAdmin()">Logout Admin</button>
-    </div>
-    <div class="container" style="padding-top:5rem">
-      <div class="card">
-        <h2>📊 Dashboard</h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value">${totalPosts}</div>
-            <div class="stat-label">Total Posts</div>
+  function renderSettingsTab() {
+    return `
+      <h2>⚙️ Site Settings</h2>
+      <label>Hero Title</label>
+      <input id="title" value="${state.settings.title}">
+      <label>Hero Subtitle</label>
+      <input id="subtitle" value="${state.settings.subtitle}">
+      <label>About Text</label>
+      <textarea id="about" rows="3">${state.settings.about}</textarea>
+      <label>Monthly Price Display</label>
+      <input id="price" value="${state.settings.price}">
+      <label style="color:#fcd34d;font-weight:600">🎟️ Set Supporter Access Code</label>
+      <input id="supporterCode" value="${state.supporterCode}" placeholder="e.g. TINY2026">
+      <p style="font-size:0.75rem;color:#94a3b8;margin-top:0.5rem">Supporters enter this code after subscribing to unlock 🔒 content. Leave blank to disable supporter logins.</p>
+      <button class="btn btn-primary" style="width:100%;margin-top:1.5rem" onclick="saveSettings()">💾 Save Settings to Supabase</button>
+    `;
+  }
+
+  function renderPostsTab() {
+    return `
+      <h2>${state.editing !== null ? '✏️ Edit Post' : '✍️ New Post'}</h2>
+      <textarea id="content" rows="4" placeholder="What's new? Share updates, thoughts, progress...">${state.editing !== null ? state.posts[state.editing].content : ''}</textarea>
+      
+      <label>Photos (max 10)</label>
+      <input type="file" id="photos" accept="image/*" multiple onchange="handlePhotos(event)">
+      <div class="grid-3">
+        ${state.draft.photos.map((p,i)=>`
+          <div style="position:relative">
+            <img src="${p}">
+            <button class="btn btn-danger" style="position:absolute;top:0.25rem;right:0.25rem;padding:0.25rem 0.5rem;font-size:0.75rem" onclick="removePhoto(${i})">✕</button>
+          </div>`).join('')}
+      </div>
+      
+      <div class="checkbox">
+        <input type="checkbox" id="locked" ${state.editing !== null && state.posts[state.editing].locked ? 'checked' : ''}>
+        <label for="locked" style="margin:0;cursor:pointer">🔒 Supporter-Only Content (${state.settings.price})</label>
+      </div>
+      
+      <button class="btn btn-primary" style="width:100%" onclick="publishPost()">${state.editing !== null ? '✓ Update Post' : '🚀 Publish Post'}</button>
+      ${state.editing !== null ? '<button class="btn btn-secondary" style="width:100%;margin-top:0.5rem" onclick="cancelEdit()">Cancel</button>' : ''}
+      
+      <hr style="margin:2rem 0;border-color:rgba(255,255,255,0.1)">
+      
+      <h2>📋 All Posts</h2>
+      ${state.posts.length ? state.posts.map((p,i)=>`
+        <div class="post">
+          <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+            <div>
+              <span style="color:#60a5fa;font-weight:500">${p.date}</span>
+              <span class="badge ${p.locked ? 'badge-locked' : 'badge-public'}">${p.locked ? '🔒 Locked' : '🌍 Public'}</span>
+            </div>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+              <button class="btn btn-danger" style="padding:0.5rem 1rem;font-size:0.875rem" onclick="deletePost(${p.id})">Delete</button>
+            </div>
           </div>
-          <div class="stat-card">
-            <div class="stat-value">${publicPosts}</div>
-            <div class="stat-label">Public Posts</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${lockedPosts}</div>
-            <div class="stat-label">🔒 Locked Posts</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value">${state.gallery.length}</div>
-            <div class="stat-label">Gallery Photos</div>
-          </div>
+          <p style="color:#cbd5e1;margin-bottom:1rem;white-space:pre-wrap">${p.content}</p>
+          ${p.photos && p.photos.length ? `
+            <div class="grid-3">
+              ${p.photos.slice(0, p.expanded ? 10 : 3).map(img => `<img src="${img}" onclick="openModal('${img}')">`).join('')}
+              ${p.photos.length > 3 && !p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="expand(${i})">Show ${p.photos.length-3} more photos</button>` : ''}
+            </div>` : ''}
+        </div>`).join('') : '<p style="color:#94a3b8;text-align:center;padding:3rem">No posts yet. Create your first one above!</p>'}
+    `;
+  }
+
+  function renderGalleryTab() {
+    return `
+      <h2>🖼️ Featured Gallery</h2>
+      <p style="color:#94a3b8;margin-bottom:1.5rem">Gallery Supabase upload not yet implemented in this demo.</p>
+    `;
+  }
+
+  function renderPublic() {
+    let lockedCount = state.posts.filter(p => p.locked).length;
+    
+    $('#app').innerHTML = `
+      ${state.isSupporter ? `
+        <div class="header">
+          <button class="btn btn-secondary" onclick="logoutSupporter()">Logout Supporter</button>
+        </div>` : ''}
+      
+      <div class="hero">
+        <div class="hero-content">
+          <h1>${state.settings.title}</h1>
+          <p>${state.settings.subtitle}</p>
+          <p style="color:#cbd5e1;max-width:700px;margin:0 auto 2rem">${state.settings.about}</p>
+          <a href="${STRIPE_URL}?success_url=${encodeURIComponent(window.location.origin + window.location.pathname + '?success=true')}" target="_blank" class="btn btn-primary" style="font-size:1.125rem;padding:1rem 2rem">
+            💎 Subscribe ${state.settings.price} - Unlock All Content
+          </a>
+          
+          ${!state.isSupporter ? `
+            <div class="login-grid">
+              <div class="card" style="text-align:left">
+                <h3 style="margin-bottom:1rem;color:#a78bfa">👑 Admin Login</h3>
+                <input type="password" id="loginpass" placeholder="Admin password" onkeypress="if(event.key==='Enter')loginAdmin()">
+                <button class="btn btn-primary" style="width:100%;margin-top:0.5rem" onclick="loginAdmin()">Login as Admin</button>
+              </div>
+              
+              <div class="card" style="text-align:left">
+                <h3 style="margin-bottom:1rem;color:#fcd34d">🎟️ Supporter Login</h3>
+                ${state.supporterCode ? `
+                  <input type="text" id="suppcode" placeholder="Enter your access code" onkeypress="if(event.key==='Enter')loginSupporter()">
+                  <button class="btn btn-primary" style="width:100%;margin-top:0.5rem;background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="loginSupporter()">Access Supporter Content</button>
+                  <p style="color:#94a3b8;font-size:0.75rem;margin-top:1rem;text-align:center">Subscribe above to receive your code</p>
+                ` : `
+                  <p style="color:#94a3b8;text-align:center;padding:1rem">Supporter access not configured by admin yet.</p>
+                `}
+              </div>
+            </div>` : `
+            <div class="card success-banner" style="max-width:500px;margin:2rem auto 0">
+              <p style="color:#86efac;font-size:1.125rem">✓ Logged in as Supporter</p>
+              <p style="color:#cbd5e1;font-size:0.875rem;margin-top:0.5rem">You have access to all ${lockedCount} exclusive posts below</p>
+            </div>`}
         </div>
       </div>
       
-      <div class="card admin-section">
-        <div class="tabs">
-          <button class="tab ${state.adminTab === 'settings' ? 'active' : ''}" onclick="switchTab('settings')">⚙️ Site Settings</button>
-          <button class="tab ${state.adminTab === 'posts' ? 'active' : ''}" onclick="switchTab('posts')">✍️ Posts</button>
-          <button class="tab ${state.adminTab === 'gallery' ? 'active' : ''}" onclick="switchTab('gallery')">🖼️ Edit Gallery</button>
-        </div>
-        
-        ${state.adminTab === 'settings' ? renderSettingsTab() : ''}
-        ${state.adminTab === 'posts' ? renderPostsTab() : ''}
-        ${state.adminTab === 'gallery' ? renderGalleryTab() : ''}
-      </div>
-    </div>`;
-}
-
-function renderSettingsTab() {
-  return `
-    <h2>⚙️ Site Settings</h2>
-    <label>Hero Title</label>
-    <input id="title" value="${state.settings.title}">
-    <label>Hero Subtitle</label>
-    <input id="subtitle" value="${state.settings.subtitle}">
-    <label>About Text</label>
-    <textarea id="about" rows="3">${state.settings.about}</textarea>
-    <label>Monthly Price Display</label>
-    <input id="price" value="${state.settings.price}">
-    <label style="color:#fcd34d;font-weight:600">🎟️ Set Supporter Access Code</label>
-    <input id="supporterCode" value="${state.supporterCode}" placeholder="e.g. TINY2026">
-    <p style="font-size:0.75rem;color:#94a3b8;margin-top:0.5rem">Supporters enter this code after subscribing to unlock 🔒 content. Leave blank to disable supporter logins.</p>
-    <button class="btn btn-primary" style="width:100%;margin-top:1.5rem" onclick="saveSettings()">💾 Save Settings</button>
-  `;
-}
-
-function renderPostsTab() {
-  return `
-    <h2>${state.editing !== null ? '✏️ Edit Post' : '✍️ New Post'}</h2>
-    <textarea id="content" rows="4" placeholder="What's new? Share updates, thoughts, progress...">${state.editing !== null ? state.posts[state.editing].content : ''}</textarea>
-    
-    <label>Photos (max 10)</label>
-    <input type="file" id="photos" accept="image/*" multiple onchange="handlePhotos(event)">
-    <div class="grid-3">
-      ${state.draft.photos.map((p,i)=>`
-        <div style="position:relative">
-          <img src="${p}">
-          <button class="btn btn-danger" style="position:absolute;top:0.25rem;right:0.25rem;padding:0.25rem 0.5rem;font-size:0.75rem" onclick="removePhoto(${i})">✕</button>
-        </div>`).join('')}
-    </div>
-    
-    <label>Video (max 1)</label>
-    <input type="file" id="video" accept="video/*" onchange="handleVideo(event)">
-    ${state.draft.video ? `
-      <video src="${state.draft.video}" controls style="width:100%;border-radius:0.5rem;margin:1rem 0;max-height:400px"></video>
-      <button class="btn btn-danger" onclick="removeVideo()">Remove Video</button>` : ''}
-    
-    <div class="checkbox">
-      <input type="checkbox" id="locked" ${state.editing !== null && state.posts[state.editing].locked ? 'checked' : ''}>
-      <label for="locked" style="margin:0;cursor:pointer">🔒 Supporter-Only Content (${state.settings.price})</label>
-    </div>
-    
-    <button class="btn btn-primary" style="width:100%" onclick="publishPost()">${state.editing !== null ? '✓ Update Post' : '🚀 Publish Post'}</button>
-    ${state.editing !== null ? '<button class="btn btn-secondary" style="width:100%;margin-top:0.5rem" onclick="cancelEdit()">Cancel</button>' : ''}
-    
-    <hr style="margin:2rem 0;border-color:rgba(255,255,255,0.1)">
-    
-    <h2>📋 All Posts</h2>
-    ${state.posts.length ? state.posts.map((p,i)=>`
-      <div class="post">
-        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-          <div>
-            <span style="color:#60a5fa;font-weight:500">${p.date}</span>
-            <span class="badge ${p.locked ? 'badge-locked' : 'badge-public'}">${p.locked ? '🔒 Locked' : '🌍 Public'}</span>
-          </div>
-          <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
-            <button class="btn btn-primary" style="padding:0.5rem 1rem;font-size:0.875rem" onclick="editPost(${i})">Edit</button>
-            <button class="btn btn-danger" style="padding:0.5rem 1rem;font-size:0.875rem" onclick="deletePost(${i})">Delete</button>
-          </div>
-        </div>
-        <p style="color:#cbd5e1;margin-bottom:1rem;white-space:pre-wrap">${p.content}</p>
-        ${p.photos.length ? `
-          <div class="grid-3">
-            ${p.photos.slice(0, p.expanded ? 10 : 3).map(img => `<img src="${img}" onclick="openModal('${img}')">`).join('')}
-            ${p.photos.length > 3 && !p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="expand(${i})">Show ${p.photos.length-3} more photos</button>` : ''}
-          </div>` : ''}
-        ${p.video ? `<video src="${p.video}" controls style="width:100%;border-radius:0.5rem;margin-top:1rem;max-height:500px"></video>` : ''}
-      </div>`).join('') : '<p style="color:#94a3b8;text-align:center;padding:3rem">No posts yet. Create your first one above!</p>'}
-  `;
-}
-
-function renderGalleryTab() {
-  return `
-    <h2>🖼️ Featured Gallery</h2>
-    <p style="color:#94a3b8;margin-bottom:1.5rem">Upload up to 20 photos visible to all visitors. Drag to reorder.</p>
-    
-    <label>Upload Photos (max 20 total)</label>
-    <input type="file" id="galleryUpload" accept="image/*" multiple onchange="handleGalleryUpload(event)" ${state.gallery.length >= 20 ? 'disabled' : ''}>
-    <p style="font-size:0.75rem;color:#94a3b8;margin-top:0.25rem">${state.gallery.length}/20 photos uploaded</p>
-    
-    <div class="gallery-grid" id="galleryGrid">
-      ${state.gallery.map((item,i) => `
-        <div class="gallery-item" draggable="true" data-index="${i}" ondragstart="dragStart(event)" ondragover="dragOver(event)" ondrop="drop(event)" ondragend="dragEnd(event)">
-          <img src="${item.src}" alt="${item.caption}" onclick="openModal('${item.src}')">
-          <div class="gallery-controls">
-            <button class="btn btn-danger btn-icon" onclick="deleteGalleryItem(${i})" title="Delete">✕</button>
-          </div>
-          <div class="overlay">
-            <input type="text" value="${item.caption}" placeholder="Add caption..." 
-              style="width:100%;background:transparent;border:none;color:#fff;padding:0;margin:0;font-size:0.75rem" 
-              onchange="updateCaption(${i}, this.value)" 
-              onclick="event.stopPropagation()" />
-          </div>
-        </div>
-      `).join('')}
-    </div>
-    ${state.gallery.length === 0 ? '<p style="color:#94a3b8;text-align:center;padding:3rem">No gallery photos yet. Upload some above!</p>' : ''}
-  `;
-}
-
-function renderPublic() {
-  let lockedCount = state.posts.filter(p => p.locked).length;
-  
-  $('#app').innerHTML = `
-    ${state.isSupporter ? `
-      <div class="header">
-        <button class="btn btn-secondary" onclick="logoutSupporter()">Logout Supporter</button>
-      </div>` : ''}
-    
-    <div class="hero">
-      <div class="hero-content">
-        <h1>${state.settings.title}</h1>
-        <p>${state.settings.subtitle}</p>
-        <p style="color:#cbd5e1;max-width:700px;margin:0 auto 2rem">${state.settings.about}</p>
-        <a href="${STRIPE_URL}?success_url=${encodeURIComponent(window.location.origin + window.location.pathname + '?success=true')}" target="_blank" class="btn btn-primary" style="font-size:1.125rem;padding:1rem 2rem">
-          💎 Subscribe ${state.settings.price} - Unlock All Content
-        </a>
-        
-        ${!state.isSupporter ? `
-          <div class="login-grid">
-            <div class="card" style="text-align:left">
-              <h3 style="margin-bottom:1rem;color:#a78bfa">👑 Admin Login</h3>
-              <input type="password" id="loginpass" placeholder="Admin password" onkeypress="if(event.key==='Enter')loginAdmin()">
-              <button class="btn btn-primary" style="width:100%;margin-top:0.5rem" onclick="loginAdmin()">Login as Admin</button>
-              <a href="#" onclick="forgotPass();return false" style="color:#60a5fa;display:block;margin-top:1rem;font-size:0.875rem;text-align:center">Forgot Password?</a>
-            </div>
-            
-            <div class="card" style="text-align:left">
-              <h3 style="margin-bottom:1rem;color:#fcd34d">🎟️ Supporter Login</h3>
-              ${state.supporterCode ? `
-                <input type="text" id="suppcode" placeholder="Enter your access code" onkeypress="if(event.key==='Enter')loginSupporter()">
-                <button class="btn btn-primary" style="width:100%;margin-top:0.5rem;background:linear-gradient(135deg,#f59e0b,#d97706)" onclick="loginSupporter()">Access Supporter Content</button>
-                <p style="color:#94a3b8;font-size:0.75rem;margin-top:1rem;text-align:center">Subscribe above to receive your code</p>
-              ` : `
-                <p style="color:#94a3b8;text-align:center;padding:1rem">Supporter access not configured by admin yet.</p>
-              `}
-            </div>
-          </div>` : `
-          <div class="card success-banner" style="max-width:500px;margin:2rem auto 0">
-            <p style="color:#86efac;font-size:1.125rem">✓ Logged in as Supporter</p>
-            <p style="color:#cbd5e1;font-size:0.875rem;margin-top:0.5rem">You have access to all ${lockedCount} exclusive posts below</p>
-          </div>`}
-      </div>
-    </div>
-    
-    ${state.gallery.length > 0 ? `
-      <div class="container" style="padding-top:3rem">
-        <div class="card">
-          <h2 style="text-align:center;margin-bottom:1.5rem;font-size:2rem">✨ Featured Gallery</h2>
-          <div class="gallery-grid">
-            ${state.gallery.map(item => `
-              <div class="gallery-item">
-                <img src="${item.src}" alt="${item.caption}" onclick="openModal('${item.src}')">
-                ${item.caption ? `<div class="overlay" style="opacity:1">${item.caption}</div>` : ''}
+      <div class="container" style="padding-top:2rem">
+        <h2 style="text-align:center;margin-bottom:2rem;font-size:2rem">📝 Latest Posts</h2>
+        ${state.posts.map((p,i)=>`
+          <div class="post ${p.locked && !state.isSupporter ? 'locked' : ''}">
+            ${p.locked && !state.isSupporter ? `
+              <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
+              <h3>Supporter-Only Content</h3>
+              <p style="color:#94a3b8;margin:1rem 0">Subscribe ${state.settings.price} to unlock this exclusive post</p>
+              <a href="${STRIPE_URL}?success_url=${encodeURIComponent(window.location.origin + window.location.pathname + '?success=true')}" target="_blank" class="btn btn-primary">Subscribe Now</a>
+            ` : `
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+                <span style="color:#60a5fa;font-weight:500">${p.date}</span>
+                ${p.locked ? '<span class="badge badge-locked">🔒 Exclusive</span>' : '<span class="badge badge-public">🌍 Public</span>'}
               </div>
-            `).join('')}
-          </div>
-        </div>
-      </div>
-    ` : ''}
-    
-    <div class="container" style="padding-top:2rem">
-      <h2 style="text-align:center;margin-bottom:2rem;font-size:2rem">📝 Latest Posts</h2>
-      ${state.posts.map((p,i)=>`
-        <div class="post ${p.locked && !state.isSupporter ? 'locked' : ''}">
-          ${p.locked && !state.isSupporter ? `
-            <div style="font-size:3rem;margin-bottom:1rem">🔒</div>
-            <h3>Supporter-Only Content</h3>
-            <p style="color:#94a3b8;margin:1rem 0">Subscribe ${state.settings.price} to unlock this exclusive post</p>
-            <a href="${STRIPE_URL}?success_url=${encodeURIComponent(window.location.origin + window.location.pathname + '?success=true')}" target="_blank" class="btn btn-primary">Subscribe Now</a>
-          ` : `
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
-              <span style="color:#60a5fa;font-weight:500">${p.date}</span>
-              ${p.locked ? '<span class="badge badge-locked">🔒 Exclusive</span>' : '<span class="badge badge-public">🌍 Public</span>'}
-            </div>
-            <p style="color:#cbd5e1;margin-bottom:1rem;white-space:pre-wrap;font-size:1.0625rem">${p.content}</p>
-            ${p.photos.length ? `
-              <div class="grid-3">
-                ${p.photos.slice(0, p.expanded ? 10 : 3).map(img => `<img src="${img}" onclick="openModal('${img}')" alt="Post image">`).join('')}
-                ${p.photos.length > 3 && !p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="expand(${i})">Show ${p.photos.length-3} more photos</button>` : ''}
-                ${p.photos.length > 3 && p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="collapse(${i})">Show less</button>` : ''}
-              </div>` : ''}
-            ${p.video ? `<video src="${p.video}" controls style="width:100%;border-radius:0.5rem;margin-top:1rem;max-height:500px;background:#000"></video>` : ''}
-          `}
-        </div>`).join('') || '<div class="card" style="text-align:center"><p style="color:#94a3b8;padding:2rem">No posts yet. Check back soon!</p></div>'}
-    </div>`;
-}
+              <p style="color:#cbd5e1;margin-bottom:1rem;white-space:pre-wrap;font-size:1.0625rem">${p.content}</p>
+              ${p.photos && p.photos.length ? `
+                <div class="grid-3">
+                  ${p.photos.slice(0, p.expanded ? 10 : 3).map(img => `<img src="${img}" onclick="openModal('${img}')" alt="Post image">`).join('')}
+                  ${p.photos.length > 3 && !p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="expand(${i})">Show ${p.photos.length-3} more photos</button>` : ''}
+                  ${p.photos.length > 3 && p.expanded ? `<button class="btn btn-secondary" style="grid-column:span 3" onclick="collapse(${i})">Show less</button>` : ''}
+                </div>` : ''}
+            `}
+          </div>`).join('') || '<div class="card" style="text-align:center"><p style="color:#94a3b8;padding:2rem">No posts yet. Check back soon!</p></div>'}
+      </div>`;
+  }
 
-function setPass() {
-  let p = $('#newpass').value;
-  if (!p || p.length < 4) return alert('Password must be at least 4 characters');
-  state.pass = hash(p);
-  sessionStorage.setItem('admin', '1');
-  state.isAdmin = true;
-  save();
-  render();
-}
-
-function loginAdmin() {
-  let p = $('#loginpass').value;
-  if (hash(p) === state.pass) {
+  // 5. Auth & General Logic
+  function setPass() {
+    let p = $('#newpass').value;
+    if (!p || p.length < 4) return alert('Password must be at least 4 characters');
+    state.pass = hash(p);
+    localStorage.setItem('admin_pass', state.pass);
     sessionStorage.setItem('admin', '1');
     state.isAdmin = true;
     render();
-  } else {
-    alert('Incorrect admin password');
   }
-}
 
-function loginSupporter() {
-  let code = $('#suppcode').value.trim();
-  if (state.supporterCode && code === state.supporterCode) {
-    sessionStorage.setItem('supporter', '1');
-    state.isSupporter = true;
-    render();
-  } else {
-    alert('Invalid access code. Make sure you entered it exactly as shown after subscribing.');
-  }
-}
-
-function logoutAdmin() {
-  sessionStorage.removeItem('admin');
-  state.isAdmin = false;
-  render();
-}
-
-function logoutSupporter() {
-  sessionStorage.removeItem('supporter');
-  state.isSupporter = false;
-  render();
-}
-
-function forgotPass() {
-  if (confirm('Reset admin password? WARNING: This will delete ALL posts, settings, and gallery!')) {
-    localStorage.clear();
-    sessionStorage.clear();
-    location.reload();
-  }
-}
-
-function saveSettings() {
-  state.settings.title = $('#title').value;
-  state.settings.subtitle = $('#subtitle').value;
-  state.settings.about = $('#about').value;
-  state.settings.price = $('#price').value;
-  state.supporterCode = $('#supporterCode').value.trim();
-  save();
-  render();
-  alert('✓ Settings saved successfully!');
-}
-
-function switchTab(tab) {
-  state.adminTab = tab;
-  render();
-}
-
-function handlePhotos(e) {
-  let files = Array.from(e.target.files).slice(0, 10 - state.draft.photos.length);
-  if (state.draft.photos.length >= 10) return alert('Maximum 10 photos per post');
-  files.forEach(file => {
-    let r = new FileReader();
-    // New: Upload to Supabase
-const { data, error } = await supabase.storage
-  .from('your-bucket-name')
-  .upload(`path/to/image.jpg`, fileObject)
-
-// Then save the public URL to your state
-const publicUrl = supabase.storage.from('bucket').getPublicUrl('path/to/image.jpg');
-state.draft.photos.push(publicUrl);
-  });
-}
-
-function removePhoto(i) {
-  state.draft.photos.splice(i, 1);
-  render();
-}
-
-function handleVideo(e) {
-  let f = e.target.files[0];
-  if (f) {
-    let r = new FileReader();
-    r.onload = e => {
-      state.draft.video = e.target.result;
+  function loginAdmin() {
+    let p = $('#loginpass').value;
+    if (hash(p) === state.pass) {
+      sessionStorage.setItem('admin', '1');
+      state.isAdmin = true;
       render();
+    } else {
+      alert('Incorrect admin password');
+    }
+  }
+
+  function loginSupporter() {
+    let code = $('#suppcode').value.trim();
+    if (state.supporterCode && code === state.supporterCode) {
+      sessionStorage.setItem('supporter', '1');
+      state.isSupporter = true;
+      render();
+    } else {
+      alert('Invalid access code.');
+    }
+  }
+
+  function logoutAdmin() {
+    sessionStorage.removeItem('admin');
+    state.isAdmin = false;
+    render();
+  }
+
+  function logoutSupporter() {
+    sessionStorage.removeItem('supporter');
+    state.isSupporter = false;
+    render();
+  }
+
+  function switchTab(tab) {
+    state.adminTab = tab;
+    render();
+  }
+
+  function expand(i) {
+    state.posts[i].expanded = true;
+    render();
+  }
+
+  function collapse(i) {
+    state.posts[i].expanded = false;
+    render();
+  }
+
+  function togglePreview() {
+    state.isAdmin = false;
+    sessionStorage.setItem('admin', '0');
+    render();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+
+  async function deletePost(id) {
+    if (confirm('Delete this post permanently?')) {
+      await supabase.from('posts').delete().eq('id', id);
+      init(); // Re-fetch from DB
+    }
+  }
+
+  function openModal(src) {
+    let modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <button class="modal-close" onclick="this.parentElement.remove()">×</button>
+      <img src="${src}" alt="Full size image">
+    `;
+    modal.onclick = (e) => {
+      if (e.target === modal) modal.remove();
     };
-    r.readAsDataURL(f);
+    document.body.appendChild(modal);
   }
-}
 
-function removeVideo() {
-  state.draft.video = null;
-  render();
-}
+  // START APPLICATION
+  init();
 
-function publishPost() {
-  let c = $('#content').value.trim();
-  if (!c) return alert('Please write some content for your post');
-  
-  let post = {
-    content: c,
-    photos: [...state.draft.photos],
-    video: state.draft.video,
-    locked: $('#locked').checked,
-    date: new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}),
-    expanded: false
-  };
-  
-  if (state.editing !== null) {
-    state.posts[state.editing] = post;
-    state.editing = null;
-  } else {
-    state.posts.unshift(post);
-  }
-  
-  state.draft = {photos: [], video: null};
-  save();
-  render();
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function editPost(i) {
-  state.editing = i;
-  state.draft.photos = [...state.posts[i].photos];
-  state.draft.video = state.posts[i].video;
-  state.adminTab = 'posts';
-  render();
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function cancelEdit() {
-  state.editing = null;
-  state.draft = {photos: [], video: null};
-  render();
-}
-
-function deletePost(i) {
-  if (confirm('Delete this post permanently?')) {
-    state.posts.splice(i, 1);
-    save();
-    render();
-  }
-}
-
-function expand(i) {
-  state.posts[i].expanded = true;
-  render();
-}
-
-function collapse(i) {
-  state.posts[i].expanded = false;
-  render();
-}
-
-function togglePreview() {
-  state.isAdmin = false;
-  sessionStorage.setItem('admin', '0');
-  render();
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function handleGalleryUpload(e) {
-  let remaining = 20 - state.gallery.length;
-  if (remaining <= 0) return alert('Gallery limit reached: 20 photos maximum');
-  
-  let files = Array.from(e.target.files).slice(0, remaining);
-  let loaded = 0;
-  
-  files.forEach(file => {
-    let r = new FileReader();
-    r.onload = e => {
-      state.gallery.push({
-        src: e.target.result,
-        caption: ''
-      });
-      loaded++;
-      if (loaded === files.length) {
-        save();
-        render();
-      }
-    };
-    r.readAsDataURL(file);
-  });
-}
-
-function updateCaption(i, caption) {
-  state.gallery[i].caption = caption;
-  save();
-}
-
-function deleteGalleryItem(i) {
-  if (confirm('Delete this gallery photo?')) {
-    state.gallery.splice(i, 1);
-    save();
-    render();
-  }
-}
-
-let draggedIdx = null;
-
-function dragStart(e) {
-  draggedIdx = parseInt(e.target.closest('.gallery-item').dataset.index);
-  e.target.classList.add('dragging');
-}
-
-function dragOver(e) {
-  e.preventDefault();
-}
-
-function drop(e) {
-  e.preventDefault();
-  let targetIdx = parseInt(e.target.closest('.gallery-item').dataset.index);
-  if (draggedIdx !== null && draggedIdx !== targetIdx) {
-    let item = state.gallery.splice(draggedIdx, 1)[0];
-    state.gallery.splice(targetIdx, 0, item);
-    save();
-    render();
-  }
-}
-
-function dragEnd(e) {
-  e.target.classList.remove('dragging');
-  draggedIdx = null;
-}
-
-function openModal(src) {
-  let modal = document.createElement('div');
-  modal.className = 'modal';
-  modal.innerHTML = `
-    <button class="modal-close" onclick="this.parentElement.remove()">×</button>
-    <img src="${src}" alt="Full size image">
-  `;
-  modal.onclick = (e) => {
-    if (e.target === modal) modal.remove();
-  };
-  document.body.appendChild(modal);
-}
-
-load();
 </script>
-<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
 </body>
 </html>
