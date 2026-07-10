@@ -3,14 +3,13 @@
 <head>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-  // Destructure createClient from the library
-  const { createClient } = supabase;
-  
-  const supabaseUrl = 'https://rshsosjeykkgahvwrwqe.supabase.co';
-  const supabaseKey = 'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo';
-  
-  const supabase = createClient(supabaseUrl, supabaseKey);
+  // Use a different name for the client to avoid conflicts
+  const db = supabase.createClient(
+    'https://rshsosjeykkgahvwrwqe.supabase.co', 
+    'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo'
+  );
 </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,21 +127,21 @@
     adminTab: 'settings'
   };
 
-  // 1. Initializer: Fetches data from Supabase
+  // 1. Initializer: Fetches data from db
   async function init() {
     // Check local session
     state.isAdmin = sessionStorage.getItem('admin') === '1';
     state.isSupporter = sessionStorage.getItem('supporter') === '1';
 
     // Fetch Settings
-    const { data: settingsData } = await supabase.from('settings').select('*').single();
+    const { data: settingsData } = await db.from('settings').select('*').single();
     if (settingsData) {
       state.settings = { ...state.settings, ...settingsData };
       state.supporterCode = settingsData.supporterCode || state.supporterCode;
     }
 
     // Fetch Posts
-    const { data: postsData } = await supabase.from('posts').select('*').order('id', { ascending: false });
+    const { data: postsData } = await db.from('posts').select('*').order('id', { ascending: false });
     if (postsData) {
       state.posts = postsData;
     }
@@ -165,13 +164,13 @@
     state.settings.price = $('#price').value;
     state.supporterCode = $('#supporterCode').value.trim();
 
-    const { error } = await supabase
+    const { error } = await db
       .from('settings')
       .upsert({ id: 1, ...state.settings, supporterCode: state.supporterCode });
 
     if (error) {
       console.error("Settings Error:", error);
-      alert('Error saving settings to Supabase.');
+      alert('Error saving settings to db.');
     } else {
       alert('✓ Settings saved successfully to the cloud!');
       render();
@@ -190,8 +189,8 @@
       date: new Date().toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'})
     };
     
-    // Save to Supabase instead of local array
-    const { error } = await supabase.from('posts').insert([newPost]);
+    // Save to db instead of local array
+    const { error } = await db.from('posts').insert([newPost]);
     
     if (error) {
       console.error("Post Error:", error);
@@ -211,8 +210,8 @@
     for (const file of files) {
       const fileName = `${Date.now()}_${file.name}`;
       
-      // Upload to Supabase Storage Bucket (Make sure you create a bucket named 'photos')
-      const { data, error } = await supabase.storage
+      // Upload to db Storage Bucket (Make sure you create a bucket named 'photos')
+      const { data, error } = await db.storage
         .from('photos') 
         .upload(fileName, file);
 
@@ -223,7 +222,7 @@
       }
 
       // Get Public URL
-      const { data: urlData } = supabase.storage.from('photos').getPublicUrl(fileName);
+      const { data: urlData } = db.storage.from('photos').getPublicUrl(fileName);
       state.draft.photos.push(urlData.publicUrl);
     }
     
@@ -337,7 +336,7 @@
       <label style="color:#fcd34d;font-weight:600">🎟️ Set Supporter Access Code</label>
       <input id="supporterCode" value="${state.supporterCode}" placeholder="e.g. TINY2026">
       <p style="font-size:0.75rem;color:#94a3b8;margin-top:0.5rem">Supporters enter this code after subscribing to unlock 🔒 content. Leave blank to disable supporter logins.</p>
-      <button class="btn btn-primary" style="width:100%;margin-top:1.5rem" onclick="saveSettings()">💾 Save Settings to Supabase</button>
+      <button class="btn btn-primary" style="width:100%;margin-top:1.5rem" onclick="saveSettings()">💾 Save Settings to db</button>
     `;
   }
 
