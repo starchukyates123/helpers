@@ -2,13 +2,16 @@
 <html lang="en">
 <head>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script>
-    // ⚠️ ONLY USE THE 'ANON' PUBLIC KEY HERE. NEVER THE SECRET KEY.
-    const supabase = supabase.createClient(
-      'https://rshsosjeykkgahvwrwqe.supabase.co', 
-      'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo' 
-    );
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Destructure createClient from the library
+  const { createClient } = supabase;
+  
+  const supabaseUrl = 'https://rshsosjeykkgahvwrwqe.supabase.co';
+  const supabaseKey = 'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo';
+  
+  const supabase = createClient(supabaseUrl, supabaseKey);
+</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support Our Grow</title>
