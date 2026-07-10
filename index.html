@@ -1,16 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support Our Grow</title>
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <script>
+    const db = supabase.createClient(
+      'https://rshsosjeykkgahvwrwqe.supabase.co', 
+      'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo'
+    );
+  </script>
+
+  <style>
+    /* ... (KEEP YOUR EXACT CSS HERE) ... */
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0f172a;color:#fff;min-height:100vh;line-height:1.6}
+    /* ... (rest of your CSS) ... */
+  </style>
+</head>
+<body>
+<div id="app"></div>
+
 <script>
-  // Use a different name for the client to avoid conflicts
-  const db = supabase.createClient(
-    'https://rshsosjeykkgahvwrwqe.supabase.co', 
-    'sb_publishable_iK_lzun3Sch2EqFbAPTi1Q_HqzzfkLo'
-  );
-</script>
+  const STRIPE_URL = 'https://buy.stripe.com/9B66oH1up0T31FMeA8bwk00';
+  const $ = s => document.querySelector(s);
+  const hash = p => btoa(p).slice(0,16);
+
+  let state = {
+    isAdmin: false, isSupporter: false, pass: localStorage.getItem('admin_pass') || '',
+    supporterCode: '',
+    settings: { title: 'Support Our Grow', subtitle: 'Join Ariana\'s AI Helper Evolution', price: '$4.99/mo', about: 'Follow our journey...' },
+    posts: [], gallery: [], editing: null, draft: { photos: [], video: null }, adminTab: 'settings'
+  };
+
+  async function init() {
+    state.isAdmin = sessionStorage.getItem('admin') === '1';
+    state.isSupporter = sessionStorage.getItem('supporter') === '1';
+
+    // UPDATED: Used db
+    const { data: settingsData } = await db.from('settings').select('*').single();
+    if (settingsData) { state.settings = { ...state.settings, ...settingsData }; state.supporterCode = settingsData.supporterCode || state.supporterCode; }
+
+    const { data: postsData } = await db.from('posts').select('*').order('id', { ascending: false });
+    if (postsData) { state.posts = postsData; }
+
+    render();
+  }
+
+  async function saveSettings() {
+    state.settings.title = $('#title').value;
+    state.supporterCode = $('#supporterCode').value.trim();
+    // UPDATED: Used db
+    const { error } = await db.from('settings').upsert({ id: 1, ...state.settings, supporterCode: state.supporterCode });
+    if (error) alert('Error saving settings.'); else { alert('Saved!'); render(); }
+  }
+
+  async function publishPost() {
+    let c = $('#content').value.trim();
+    if (!c) return;
+    let newPost = { content: c, photos: [...state.draft.photos], locked: $('#locked').checked, date: new Date().toLocaleDateString() };
+    // UPDATED: Used db
+    const { error } = await db.from('posts').insert([newPost]);
+    if (error) alert('Failed.'); else { state.draft = {photos: []}; init(); }
+  }
+
+  async function handlePhotos(e) {
+    const file = e.target.files[0];
+    const fileName = `${Date.now()}_${file.name}`;
+    // UPDATED: Used db
+    const { error } = await db.storage.from('photos').upload(fileName, file);
+    if (!error) {
+      const { data } = db.storage.from('photos').getPublicUrl(fileName);
+      state.draft.photos.push(data.publicUrl);
+      render();
+    }
+  }
+  
+  async function deletePost(id) {
+    // UPDATED: Used db
+    await db.from('posts').delete().eq('id', id);
+    init();
+  }
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Support Our Grow</title>
